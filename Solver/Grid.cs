@@ -35,6 +35,11 @@ namespace Solver
 
 		}
 
+        public void Scale(float scale)
+        {
+
+        }
+
 		/// <summary>
 		/// Creates a grid given a 3D matrix and a Sampling rate
 		/// </summary>

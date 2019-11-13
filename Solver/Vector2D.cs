@@ -20,6 +20,10 @@ namespace Solver
         {
             return Math.Sqrt((v.x - x) * (v.x - x) + (v.y - y) * (v.y - y));
         }
+        public double Length { get
+            {
+                return Math.Sqrt(x * x + y * y);
+            } }
 
     }
 }

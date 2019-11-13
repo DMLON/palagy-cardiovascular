@@ -191,286 +191,303 @@ namespace Solver
 			}
 		}
 
-		//static bool IS_COND2_SATISFIED(int[] NP, int[,,] M)
-		//{
-		//	//NP: Vecindad de un punto p;
-		//	bool es = false;
+        public bool IsSimple2
+        {
+            get
+            {
+                //Task<bool> Cond2 = Task.Run(() => { return ConditionV2(); });
+                //Task<bool> Cond4 = Task.Run(() => { return ConditionV4(); });
+                //Cond2.Wait();
+                //Cond4.Wait();
+                bool res = false;
+                if (ConditionV2())
+                    if (ConditionV4_version2())
+                        res = true;
+                return res;
 
-		//	//M: recibe (para no pedir en cada momemento) la Matriz de vecindad de p:
-		//	//5x5x5 en lugar de 3x3x3 para evitar problemas de contorno:
+            }
+        }
 
-		//	for (int i = 0; i < 5; i++)
-		//		for (int j = 0; j < 5; j++)
-		//			for (int kk = 0; kk < 5; kk++)
-		//				M[i, j, kk] = 0;
+        //static bool IS_COND2_SATISFIED(int[] NP, int[,,] M)
+        //{
+        //	//NP: Vecindad de un punto p;
+        //	bool es = false;
 
-		//	//Llenado de la Matriz Vecindad de p, sin p
-		//	int k = 0;
+        //	//M: recibe (para no pedir en cada momemento) la Matriz de vecindad de p:
+        //	//5x5x5 en lugar de 3x3x3 para evitar problemas de contorno:
 
-		//	int[] c = new int[3]; //Puntos semillas para ver conectividad:
+        //	for (int i = 0; i < 5; i++)
+        //		for (int j = 0; j < 5; j++)
+        //			for (int kk = 0; kk < 5; kk++)
+        //				M[i, j, kk] = 0;
 
-		//	for (int z = 1; z < 4; z++)
-		//		for (int x = 1; x < 4; x++)
-		//			for (int y = 1; y < 4; y++)
-		//			{
-		//				if (!(x == 2 && y == 2 && z == 2)) //Si no estoy en el medio, o sea, sobre el punto p
-		//				{
-		//					if (NP[k] == 1)
-		//					{
-		//						M[x, y, z] = 1;
-		//						c[0] = x; c[1] = y; c[2] = z; //Búsqueda del punto semilla "c"
-		//					}
-		//					k++;
-		//				}
-		//			}
+        //	//Llenado de la Matriz Vecindad de p, sin p
+        //	int k = 0;
 
-		//	List<int[]> CP = new List<int[]>(); //connected points
-		//	CP.Add(c);
+        //	int[] c = new int[3]; //Puntos semillas para ver conectividad:
 
-		//	List<int[]> AC = new List<int[]>();
+        //	for (int z = 1; z < 4; z++)
+        //		for (int x = 1; x < 4; x++)
+        //			for (int y = 1; y < 4; y++)
+        //			{
+        //				if (!(x == 2 && y == 2 && z == 2)) //Si no estoy en el medio, o sea, sobre el punto p
+        //				{
+        //					if (NP[k] == 1)
+        //					{
+        //						M[x, y, z] = 1;
+        //						c[0] = x; c[1] = y; c[2] = z; //Búsqueda del punto semilla "c"
+        //					}
+        //					k++;
+        //				}
+        //			}
 
-		//	M[c[0], c[1], c[2]] = 0; //Eliminacion en M del punto semilla "c"
+        //	List<int[]> CP = new List<int[]>(); //connected points
+        //	CP.Add(c);
 
-		//	int[] np;
-		//	int[] ap;
+        //	List<int[]> AC = new List<int[]>();
 
-		//	List<int[]> NewP = new List<int[]>(); //array de coordenadas de los puntos vecinos
+        //	M[c[0], c[1], c[2]] = 0; //Eliminacion en M del punto semilla "c"
 
-		//	int[] NP2 = new int[26]; //almacena la vecindad dentro de los puntos NP
+        //	int[] np;
+        //	int[] ap;
 
-		//	while (CP.Count != 0)
-		//	{
-		//		c = CP[0];
+        //	List<int[]> NewP = new List<int[]>(); //array de coordenadas de los puntos vecinos
 
-		//		//collect26neigh(c, M, NP2);
+        //	int[] NP2 = new int[26]; //almacena la vecindad dentro de los puntos NP
 
-		//		//COLLECT_26NEIGH_COORDS(NP2, c, NewP);
+        //	while (CP.Count != 0)
+        //	{
+        //		c = CP[0];
 
-		//		for (int j = 0; j < NewP.Count; j++)
-		//		{
-		//			ap = NewP[j];
-		//			np = new int[3];
-		//			np[0] = ap[0]; np[1] = ap[1]; np[2] = ap[2];
-		//			CP.Add(np);
-		//			M[ap[0], ap[1], ap[2]] = 0;
-		//		}
+        //		//collect26neigh(c, M, NP2);
 
-		//		//np = new Punto;
-		//		//np->x= c->x; np->y = c->y; np->z = c->z;
-		//		//AC->Add(np);
-		//		AC.Add(c);
+        //		//COLLECT_26NEIGH_COORDS(NP2, c, NewP);
 
-		//		CP.RemoveAt(0);
+        //		for (int j = 0; j < NewP.Count; j++)
+        //		{
+        //			ap = NewP[j];
+        //			np = new int[3];
+        //			np[0] = ap[0]; np[1] = ap[1]; np[2] = ap[2];
+        //			CP.Add(np);
+        //			M[ap[0], ap[1], ap[2]] = 0;
+        //		}
 
-		//		NewP.Clear();
+        //		//np = new Punto;
+        //		//np->x= c->x; np->y = c->y; np->z = c->z;
+        //		//AC->Add(np);
+        //		AC.Add(c);
 
-		//	}//end while...
+        //		CP.RemoveAt(0);
 
-		//	if (AC.Count == NP.Sum())
-		//		es = true;
+        //		NewP.Clear();
 
-		//	//Borrar elementos auxiliares:
-		//	NewP.Clear();
-		//	CP.Clear();
-		//	AC.Clear();
+        //	}//end while...
 
-		//	return es;
-		//}
+        //	if (AC.Count == NP.Sum())
+        //		es = true;
 
-		//static bool IS_COND4_SATISFIED(int[] Np, int[,,] M)
-		//{
-		//	//Input: Np: Vecindad de un punto p;
-		//	bool es = false;
+        //	//Borrar elementos auxiliares:
+        //	NewP.Clear();
+        //	CP.Clear();
+        //	AC.Clear();
 
-		//	//M: recibe (para no pedir en cada momemento) la Matriz de vecindad de p:
-		//	//5x5x5 en lugar de 3x3x3 para evitar problemas de contorno:
-		//	for (int i = 0; i < 5; i++)
-		//		for (int j = 0; j < 5; j++)
-		//			for (int k = 0; k < 5; k++)
-		//				M[i, j, k] = 0;
+        //	return es;
+        //}
 
-		//	//Creacion de la Matriz Vecindad de p
+        //static bool IS_COND4_SATISFIED(int[] Np, int[,,] M)
+        //{
+        //	//Input: Np: Vecindad de un punto p;
+        //	bool es = false;
 
-		//	//INVIERTO LA VECINDAD PARA TRABAJAR CON LOS MISMOS ALGORITMOS QUE BUSCAN
-		//	//CONECTIVIDAD ENTRE VECINOS NEGROS
-		//	for (int i = 0; i < 26; i++)
-		//	{
-		//		if (Np[i] == 1)
-		//		{
-		//			Np[i] = 0;
-		//			continue;
-		//		}
+        //	//M: recibe (para no pedir en cada momemento) la Matriz de vecindad de p:
+        //	//5x5x5 en lugar de 3x3x3 para evitar problemas de contorno:
+        //	for (int i = 0; i < 5; i++)
+        //		for (int j = 0; j < 5; j++)
+        //			for (int k = 0; k < 5; k++)
+        //				M[i, j, k] = 0;
 
-		//		if (Np[i] == 0)
-		//		{
-		//			Np[i] = 1;
-		//			continue;
-		//		}
+        //	//Creacion de la Matriz Vecindad de p
 
-		//	}
-		//	//IGUALO A 0 TODOS LOS CONRNER POINTS, CONVIRTIENDO LA 26-VECINDAD EN 18-VECINDAD
-		//	M[1, 1, 1] = 0;
-		//	M[1, 2, 1] = Np[1];
-		//	M[1, 3, 1] = 0;
-		//	M[2, 1, 1] = Np[3];
-		//	M[2, 2, 1] = Np[4]; //U
-		//	M[2, 3, 1] = Np[5];
-		//	M[3, 1, 1] = 0;
-		//	M[3, 2, 1] = Np[7];
-		//	M[3, 3, 1] = 0;
+        //	//INVIERTO LA VECINDAD PARA TRABAJAR CON LOS MISMOS ALGORITMOS QUE BUSCAN
+        //	//CONECTIVIDAD ENTRE VECINOS NEGROS
+        //	for (int i = 0; i < 26; i++)
+        //	{
+        //		if (Np[i] == 1)
+        //		{
+        //			Np[i] = 0;
+        //			continue;
+        //		}
 
-		//	M[1, 1, 2] = Np[9];
-		//	M[1, 2, 2] = Np[10];//%N
-		//	M[1, 3, 2] = Np[11];
-		//	M[2, 1, 2] = Np[12];//%W
-		//	M[2, 2, 2] = 0;
-		//	M[2, 3, 2] = Np[13];//%E
-		//	M[3, 1, 2] = Np[14];
-		//	M[3, 2, 2] = Np[15];//%S
-		//	M[3, 3, 2] = Np[16];
+        //		if (Np[i] == 0)
+        //		{
+        //			Np[i] = 1;
+        //			continue;
+        //		}
 
-		//	M[1, 1, 3] = 0;
-		//	M[1, 2, 3] = Np[18];
-		//	M[1, 3, 3] = 0;
-		//	M[2, 1, 3] = Np[20];
-		//	M[2, 2, 3] = Np[21];//%D
-		//	M[2, 3, 3] = Np[22];
-		//	M[3, 1, 3] = 0;
-		//	M[3, 2, 3] = Np[24];
-		//	M[3, 3, 3] = 0;
+        //	}
+        //	//IGUALO A 0 TODOS LOS CONRNER POINTS, CONVIRTIENDO LA 26-VECINDAD EN 18-VECINDAD
+        //	M[1, 1, 1] = 0;
+        //	M[1, 2, 1] = Np[1];
+        //	M[1, 3, 1] = 0;
+        //	M[2, 1, 1] = Np[3];
+        //	M[2, 2, 1] = Np[4]; //U
+        //	M[2, 3, 1] = Np[5];
+        //	M[3, 1, 1] = 0;
+        //	M[3, 2, 1] = Np[7];
+        //	M[3, 3, 1] = 0;
 
-		//	int UpFlag = 0, NorthFlag = 0, WestFlag = 0, EastFlag = 0, SouthFlag = 0, DownFlag = 0;
+        //	M[1, 1, 2] = Np[9];
+        //	M[1, 2, 2] = Np[10];//%N
+        //	M[1, 3, 2] = Np[11];
+        //	M[2, 1, 2] = Np[12];//%W
+        //	M[2, 2, 2] = 0;
+        //	M[2, 3, 2] = Np[13];//%E
+        //	M[3, 1, 2] = Np[14];
+        //	M[3, 2, 2] = Np[15];//%S
+        //	M[3, 3, 2] = Np[16];
 
-		//	int[] c = new int[3];
-		//	c = null;
+        //	M[1, 1, 3] = 0;
+        //	M[1, 2, 3] = Np[18];
+        //	M[1, 3, 3] = 0;
+        //	M[2, 1, 3] = Np[20];
+        //	M[2, 2, 3] = Np[21];//%D
+        //	M[2, 3, 3] = Np[22];
+        //	M[3, 1, 3] = 0;
+        //	M[3, 2, 3] = Np[24];
+        //	M[3, 3, 3] = 0;
 
-		//	//Encuentro cualquiera de los puntos U,D,N,S,E,W para usar como semilla de un
-		//	//crecimiento 6-connected:
+        //	int UpFlag = 0, NorthFlag = 0, WestFlag = 0, EastFlag = 0, SouthFlag = 0, DownFlag = 0;
 
-		//	if (M[2, 2, 1] == 1)
-		//	{
-		//		UpFlag = 1;
-		//		c = new int[3];
-		//		c[0] = 2; c[1] = 2; c[2] = 1;
-		//	}
+        //	int[] c = new int[3];
+        //	c = null;
 
-		//	if (M[1, 2, 2] == 1)
-		//	{
-		//		NorthFlag = 1;
-		//		c = new int[3];
-		//		c[0] = 1; c[1] = 2; c[2] = 2;
-		//	}
+        //	//Encuentro cualquiera de los puntos U,D,N,S,E,W para usar como semilla de un
+        //	//crecimiento 6-connected:
 
-		//	if (M[2, 1, 2] == 1)
-		//	{
-		//		WestFlag = 1;
-		//		c = new int[3];
-		//		c[0] = 2; c[1] = 1; c[2] = 2;
-		//	}
+        //	if (M[2, 2, 1] == 1)
+        //	{
+        //		UpFlag = 1;
+        //		c = new int[3];
+        //		c[0] = 2; c[1] = 2; c[2] = 1;
+        //	}
 
-		//	if (M[2, 3, 2] == 1)
-		//	{
-		//		EastFlag = 1;
-		//		c = new int[3];
-		//		c[0] = 2; c[1] = 3; c[2] = 2;
-		//	}
+        //	if (M[1, 2, 2] == 1)
+        //	{
+        //		NorthFlag = 1;
+        //		c = new int[3];
+        //		c[0] = 1; c[1] = 2; c[2] = 2;
+        //	}
 
-		//	if (M[3, 2, 2] == 1)
-		//	{
-		//		SouthFlag = 1;
-		//		c = new int[3];
-		//		c[0] = 3; c[1] = 2; c[2] = 2;
-		//	}
+        //	if (M[2, 1, 2] == 1)
+        //	{
+        //		WestFlag = 1;
+        //		c = new int[3];
+        //		c[0] = 2; c[1] = 1; c[2] = 2;
+        //	}
 
-		//	if (M[2, 2, 3] == 1)
-		//	{
-		//		DownFlag = 1;
-		//		c = new int[3];
-		//		c[0] = 2; c[1] = 2; c[2] = 3;
-		//	}
+        //	if (M[2, 3, 2] == 1)
+        //	{
+        //		EastFlag = 1;
+        //		c = new int[3];
+        //		c[0] = 2; c[1] = 3; c[2] = 2;
+        //	}
 
-		//	int cant_borders = UpFlag + EastFlag + WestFlag + NorthFlag + SouthFlag + DownFlag;
+        //	if (M[3, 2, 2] == 1)
+        //	{
+        //		SouthFlag = 1;
+        //		c = new int[3];
+        //		c[0] = 3; c[1] = 2; c[2] = 2;
+        //	}
 
-		//	if (c == null)
-		//		return es;
+        //	if (M[2, 2, 3] == 1)
+        //	{
+        //		DownFlag = 1;
+        //		c = new int[3];
+        //		c[0] = 2; c[1] = 2; c[2] = 3;
+        //	}
 
-		//	List<int[]> CP = new List<int[]>();
-		//	CP.Add(c);
+        //	int cant_borders = UpFlag + EastFlag + WestFlag + NorthFlag + SouthFlag + DownFlag;
 
-		//	List<int[]> AC = new List<int[]>();
+        //	if (c == null)
+        //		return es;
 
-		//	List<int[]> NewP = new List<int[]>();
+        //	List<int[]> CP = new List<int[]>();
+        //	CP.Add(c);
 
-		//	M[c[0], c[1], c[2]] = 0;
+        //	List<int[]> AC = new List<int[]>();
 
-		//	int[] NP = new int[26];
+        //	List<int[]> NewP = new List<int[]>();
 
-		//	int[] ap;
-		//	int[] np;
+        //	M[c[0], c[1], c[2]] = 0;
 
-		//	while (CP.Count != 0)
-		//	{
-		//		ap = CP[0];
-		//		//COLLECT_6_NEIGH2 y
-		//		//COLLECT_6_COORDS para asegurarnos que estamos tomando vecinos 6
-		//		//conectados.
+        //	int[] NP = new int[26];
 
-		//		//collect26neigh(ap, M, NP);
-		//		//COLLECT_6NEIGH_COORDS(NP, ap, NewP);
+        //	int[] ap;
+        //	int[] np;
 
-		//		for (int j = 0; j < NewP.Count; j++)
-		//		{
-		//			ap = NewP[j];
-		//			M[ap[0], ap[1], ap[2]] = 0;
-		//		}
+        //	while (CP.Count != 0)
+        //	{
+        //		ap = CP[0];
+        //		//COLLECT_6_NEIGH2 y
+        //		//COLLECT_6_COORDS para asegurarnos que estamos tomando vecinos 6
+        //		//conectados.
 
-		//		for (int j = 0; j < NewP.Count; j++)
-		//		{
-		//			ap = NewP[j];
-		//			np = new int[3];
-		//			np[0] = ap[0]; np[1] = ap[1]; np[2] = ap[2];
-		//			CP.Add(np);
-		//		}
-		//		ap = CP[0];
-		//		//np = new Punto;
-		//		//np->x=ap->x;np->y=ap->y; np->z=ap->z;
-		//		//AC->Add(np);
-		//		AC.Add(ap);
-		//		CP.RemoveAt(0);
+        //		//collect26neigh(ap, M, NP);
+        //		//COLLECT_6NEIGH_COORDS(NP, ap, NewP);
 
-		//		NewP.Clear();
-		//	}
+        //		for (int j = 0; j < NewP.Count; j++)
+        //		{
+        //			ap = NewP[j];
+        //			M[ap[0], ap[1], ap[2]] = 0;
+        //		}
 
-		//	//Limpieza de la matriz auxiliar
-		//	for (int i = 0; i < 5; i++)
-		//		for (int j = 0; j < 5; j++)
-		//			for (int k = 0; k < 5; k++)
-		//				M[i, j, k] = 0;
+        //		for (int j = 0; j < NewP.Count; j++)
+        //		{
+        //			ap = NewP[j];
+        //			np = new int[3];
+        //			np[0] = ap[0]; np[1] = ap[1]; np[2] = ap[2];
+        //			CP.Add(np);
+        //		}
+        //		ap = CP[0];
+        //		//np = new Punto;
+        //		//np->x=ap->x;np->y=ap->y; np->z=ap->z;
+        //		//AC->Add(np);
+        //		AC.Add(ap);
+        //		CP.RemoveAt(0);
+
+        //		NewP.Clear();
+        //	}
+
+        //	//Limpieza de la matriz auxiliar
+        //	for (int i = 0; i < 5; i++)
+        //		for (int j = 0; j < 5; j++)
+        //			for (int k = 0; k < 5; k++)
+        //				M[i, j, k] = 0;
 
 
-		//	for (int i = 0; i < AC.Count; i++)
-		//	{
-		//		ap = AC[i];
-		//		M[ap[0], ap[1], ap[2]] = 1;
-		//	}
+        //	for (int i = 0; i < AC.Count; i++)
+        //	{
+        //		ap = AC[i];
+        //		M[ap[0], ap[1], ap[2]] = 1;
+        //	}
 
-		//	int suma_border = M[2, 2, 1] + M[1, 2, 2] + M[2, 1, 2] + M[2, 3, 2] + M[3, 2, 2] + M[2, 2, 3];
+        //	int suma_border = M[2, 2, 1] + M[1, 2, 2] + M[2, 1, 2] + M[2, 3, 2] + M[3, 2, 2] + M[2, 2, 3];
 
-		//	if (suma_border == cant_borders)
-		//		es = true;
+        //	if (suma_border == cant_borders)
+        //		es = true;
 
-		//	CP.Clear();
-		//	AC.Clear();
-		//	NewP.Clear();
+        //	CP.Clear();
+        //	AC.Clear();
+        //	NewP.Clear();
 
-		//	return es;
-		//}
+        //	return es;
+        //}
 
-		/// <summary>
-		/// Revisa si al sacar el punto p separa estructuras negras en N26 (Slow)
-		/// </summary>
-		/// <returns></returns>
-		public bool Condition2()
+        /// <summary>
+        /// Revisa si al sacar el punto p separa estructuras negras en N26 (Slow)
+        /// </summary>
+        /// <returns></returns>
+        public bool Condition2()
 		{
 
 			int[,,] map = new int[3, 3, 3];
@@ -505,7 +522,6 @@ namespace Solver
 				if (!solvable)
 					break;
 
-
 				//y=i%3
 				if (x == 2 && y == 2)
 				{
@@ -518,9 +534,6 @@ namespace Solver
 					y++;
 				}
 				x = i % 3;
-
-
-
 				grid.Reset();
 			}
 
@@ -589,24 +602,67 @@ namespace Solver
 
 			int[,,] map = new int[3, 3, 3];
 			Vector3D StartSeed = null;
+            
 			int l = 0;
 			for (int k = 0; k < 3; k++)
 				for (int j = 0; j < 3; j++)
 					for (int i = 0; i < 3; i++)
 					{
-						map[i, j, k] = 0;
+                        bool corner = false;
+                        if (i == 0 && j == 0 && k == 0)
+                            corner = true;
+                        if (i == 0 && j == 0 && k == 2)
+                            corner = true;
+                        if (i == 0 && j == 2 && k == 0)
+                            corner = true;
+                        if (i == 0 && j == 2 && k == 2)
+                            corner = true;
+                        if (i == 2 && j == 0 && k == 0)
+                            corner = true;
+                        if (i == 2 && j == 0 && k == 2)
+                            corner = true;
+                        if (i == 2 && j == 2 && k == 0)
+                            corner = true;
+                        if (i == 2 && j == 2 && k == 2)
+                            corner = true;
+                        map[i, j, k] = 0;
 						if (!(i == 1 && j == 1 && k == 1))
-						{
-							map[i, j, k] = Neigh26[l].Black ? 0 : 1;
-							if (map[i, j, k] == 1 && StartSeed == null)
-								StartSeed = new Vector3D(i, j, k);
-							l++;
-						}
-					}
+                        {
+                            if (!corner)
+                            {
+                            map[i, j, k] = Neigh26[l].Black ? 0 : 1;
+                            if (map[i, j, k] == 1 && StartSeed == null)
+                            {
+                                //la semilla no puede ser una esquina (Solo acepta vecinos 18)
+                                if (i == 0 && j == 0 && k == 0)
+                                    corner = true;
+                                if (i == 0 && j == 0 && k == 2)
+                                    corner = true;
+                                if (i == 0 && j == 2 && k == 0)
+                                    corner = true;
+                                if (i == 0 && j == 2 && k == 2)
+                                    corner = true;
+                                if (i == 2 && j == 0 && k == 0)
+                                    corner = true;
+                                if (i == 2 && j == 0 && k == 2)
+                                    corner = true;
+                                if (i == 2 && j == 2 && k == 0)
+                                    corner = true;
+                                if (i == 2 && j == 2 && k == 2)
+                                    corner = true;
+                                if (!corner)
+                                    StartSeed = new Vector3D(i, j, k);
+                            }
+
+                            }
+                            l++;
+                        }
+                    }
 
 			Grid3D grid = new Grid3D(map);
 			Queue<Node3D> Candidates = new Queue<Node3D>();
 			Candidates.Enqueue(grid[StartSeed]);
+            //Nodos negros
 			var nodes = grid.grid.Cast<Node3D>().Where(x => x.Black).ToList();
 			List<Node3D> VisitedNodes = new List<Node3D>();
 			VisitedNodes.Add(grid[StartSeed]);
@@ -617,7 +673,9 @@ namespace Solver
 					break;
 				var node = Candidates.Dequeue();
 				node.Visited = true;
+                //Busco nodos que no sean null (caso extremo que sea una pared)
 				var nodesNotNull = node.Neigh6.Where(x => x != null).ToList();
+                //Por  cada nodo que no sea null, sea negro y no este visitado, meterlo en visitados
 				foreach (var n in nodesNotNull.Where(x => x.Black && !x.Visited))
 				{
 					n.Visited = true;
@@ -629,11 +687,85 @@ namespace Solver
 			return nodes.Count == VisitedNodes.Count;
 		}
 
-		/// <summary>
-		/// Revisa si al sacar el punto p une cavidades blancas en N6 (Slow)
+        /// <summary>
+		/// Revisa si al sacar el punto p une cavidades blancas en N6 (Faster)
 		/// </summary>
 		/// <returns></returns>
-		private bool Condition4()
+		public bool ConditionV4_version2()
+        {
+
+            int[,,] map = new int[3, 3, 3];
+            Vector3D StartSeed = null;
+
+            int l = 0;
+            for (int k = 0; k < 3; k++)
+                for (int j = 0; j < 3; j++)
+                    for (int i = 0; i < 3; i++)
+                    {
+                        bool corner = false;
+                        map[i, j, k] = 0;
+                        if (!(i == 1 && j == 1 && k == 1))
+                        {
+                                map[i, j, k] = Neigh26[l].Black ? 0 : 1;
+                                if (map[i, j, k] == 1 && StartSeed == null)
+                                {
+                                    //la semilla no puede ser una esquina (Solo acepta vecinos 18)
+                                    if (i == 0 && j == 0 && k == 0)
+                                        corner = true;
+                                    if (i == 0 && j == 0 && k == 2)
+                                        corner = true;
+                                    if (i == 0 && j == 2 && k == 0)
+                                        corner = true;
+                                    if (i == 0 && j == 2 && k == 2)
+                                        corner = true;
+                                    if (i == 2 && j == 0 && k == 0)
+                                        corner = true;
+                                    if (i == 2 && j == 0 && k == 2)
+                                        corner = true;
+                                    if (i == 2 && j == 2 && k == 0)
+                                        corner = true;
+                                    if (i == 2 && j == 2 && k == 2)
+                                        corner = true;
+                                    if (!corner)
+                                        StartSeed = new Vector3D(i, j, k);
+                                }
+                            l++;
+                        }
+                    }
+
+            Grid3D grid = new Grid3D(map);
+            Queue<Node3D> Candidates = new Queue<Node3D>();
+            Candidates.Enqueue(grid[StartSeed]);
+            //Nodos negros
+            var nodes = grid.grid.Cast<Node3D>().Where(x => x.Black).ToList();
+            List<Node3D> VisitedNodes = new List<Node3D>();
+            VisitedNodes.Add(grid[StartSeed]);
+            //Region Growth
+            while (Candidates.Count > 0)
+            {
+                if (nodes.Count == VisitedNodes.Count)
+                    break;
+                var node = Candidates.Dequeue();
+                node.Visited = true;
+                //Busco nodos que no sean null (caso extremo que sea una pared)
+                var nodesNotNull = node.Neigh6.Where(x => x != null).ToList();
+                //Por  cada nodo que no sea null, sea negro y no este visitado, meterlo en visitados
+                foreach (var n in nodesNotNull.Where(x => x.Black && !x.Visited))
+                {
+                    n.Visited = true;
+                    VisitedNodes.Add(n);
+                    Candidates.Enqueue(n);
+                }
+            }
+            //Si las cantidades no son iguales significa que hubo alguno sin visitar
+            return nodes.Count == VisitedNodes.Count;
+        }
+
+        /// <summary>
+        /// Revisa si al sacar el punto p une cavidades blancas en N6 (Slow)
+        /// </summary>
+        /// <returns></returns>
+        private bool Condition4()
 		{
 			int[,,] map = new int[3, 3, 3];
 			Vector3D StartSeed = null;
