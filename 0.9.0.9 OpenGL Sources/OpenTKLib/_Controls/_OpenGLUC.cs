@@ -95,10 +95,13 @@ namespace OpenTKLib
         private void toolStripLoadModel_Click(object sender, EventArgs e)
         {
             string fileName = LoadFileDialog();
-            Model myModel = new Model(fileName);
-            pointCloudFirstAfterLoad = myModel.PointCloud.Clone();
+			if (fileName != null)
+			{
+				Model myModel = new Model(fileName);
+				pointCloudFirstAfterLoad = myModel.PointCloud.Clone();
 
-            ShowModel(myModel);
+				ShowModel(myModel);
+			}
             
         }
         public void LoadModelFromFile(string fileName)

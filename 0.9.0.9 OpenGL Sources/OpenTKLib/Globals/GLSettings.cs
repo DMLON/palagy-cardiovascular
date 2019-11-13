@@ -54,7 +54,7 @@ namespace OpenTKLib
         public static string FileNamePointCloudLast4;
 
 
-		public static void InitFromSettings_Palagy()
+		public static void InitFromSettings_Palagy(bool Center)
 		{
 			IsInitializedFromSettings = true;
 
@@ -65,9 +65,9 @@ namespace OpenTKLib
 			PointSize = 3;
 			PointSizeAxis = OpenTKLib.Properties.Settings.Default.PointSizeAxis;
 			ViewMode = OpenTKLib.Properties.Settings.Default.ViewMode;
-			BackColor = System.Drawing.Color.White;
+			BackColor = System.Drawing.Color.Black;
 			ColorModels = System.Drawing.Color.Red;
-			PointCloudCentered = false;
+			PointCloudCentered = Center;
 			ShowAxesLabels = false;
 			ShowModelAxes = false;
 			Height = OpenTKLib.Properties.Settings.Default.Height;

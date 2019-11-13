@@ -7,7 +7,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
-namespace Proyecto_Final
+namespace SplineOpenTK
 {
 	public class VentanaOpenGL
 	{

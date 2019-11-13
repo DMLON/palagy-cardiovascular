@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{21C57FB8-8710-414C-B3EF-65AFFEF34962}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Proyecto_Final</RootNamespace>
-    <AssemblyName>Proyecto Final</AssemblyName>
+    <RootNamespace>SplineOpenTK</RootNamespace>
+    <AssemblyName>SplineOpenTK</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -62,6 +62,12 @@
     <None Include="App.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Solver\Solver.csproj">
+      <Project>{9bd87bd4-44e9-4627-9b62-41f97e16bac6}</Project>
+      <Name>Solver</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

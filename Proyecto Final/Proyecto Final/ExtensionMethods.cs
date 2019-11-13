@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace Proyecto_Final
+namespace SplineOpenTK
 {
 	public static class ExtensionMethods
 	{
@@ -18,6 +18,14 @@ namespace Proyecto_Final
 		public static Vector3 ToOpenTKVector(this Vector3D vector)
 		{
 			return new Vector3(Convert.ToSingle(vector.X), Convert.ToSingle(vector.Y), Convert.ToSingle(vector.Z));
+		}
+
+		public static List<Vector3D> ToWindowsMediaVector(this List<Solver.Vector3D> vector)
+		{
+			List<Vector3D> o = new List<Vector3D>();
+			foreach (var vec in vector)
+				o.Add(new Vector3D(vec.X, vec.Y, vec.Z));
+			return o;
 		}
 	}
 }

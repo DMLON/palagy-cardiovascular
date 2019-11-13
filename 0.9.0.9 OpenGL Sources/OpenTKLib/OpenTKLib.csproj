@@ -157,9 +157,6 @@
     <Compile Include="LinearAlgebra\Math.cs" />
     <Compile Include="_baseClasses\Model\ExampleModels.cs" />
     <Compile Include="_baseClasses\RenderableObjects\CameraFOV.cs" />
-    <Compile Include="_Controls\OGLControl.cs">
-      <SubType>usercontrol</SubType>
-    </Compile>
     <Compile Include="_baseClasses\OpenGLContext.cs" />
     <Compile Include="Forms\OpenTKForm.cs">
       <SubType>Form</SubType>
@@ -338,10 +335,13 @@
     <Compile Include="Utils\ScreenSaver.cs" />
     <Compile Include="Properties\Resources.cs" />
     <Compile Include="Utils\XMLFuncs.cs" />
+    <Compile Include="_Controls\OGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="_Controls\_OpenGLUC.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_Controls\_OpenGLUC.Designer.cs">
+    <Compile Include="_Controls\_OpenGLUC.designer.cs">
       <DependentUpon>_OpenGLUC.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -372,7 +372,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="_Controls\_OpenGLUC.resx">
       <DependentUpon>_OpenGLUC.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

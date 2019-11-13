@@ -5,11 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Media3D;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-
+using Solver;
 namespace SplineOpenTK
 {
 	//Centripetal Catmull–Rom spline
@@ -82,7 +78,7 @@ namespace SplineOpenTK
 			//Returns the sampled_point resulting from sampling the spline in the sampling parameter value tS:
 			int i;
 			float t;
-			Vector3D sampled_point=new Vector3D();
+			Vector3D sampled_point = new Vector3D();
 
 			//Quality control check: 0 <= tS <= 1
 			if (tS > 1.0f)
@@ -158,7 +154,7 @@ namespace SplineOpenTK
 					//Compute rest of Coef (1,N-2)
 					for (int i = 1; i < AnchorPoints.Count - 2; ++i)
 					{
-						ComputeCoeficientsForAnchors(AnchorPoints[i-1], AnchorPoints[i], AnchorPoints[i+1], AnchorPoints[i+2]);
+						ComputeCoeficientsForAnchors(AnchorPoints[i - 1], AnchorPoints[i], AnchorPoints[i + 1], AnchorPoints[i + 2]);
 					}
 					//Compute Last Coef (N-3,N-2,N-1)
 					ComputeLastCoeficients();
@@ -172,14 +168,14 @@ namespace SplineOpenTK
 			var p2 = AnchorPoints[1];
 			var p3 = AnchorPoints[2];
 			// Virtual point is the mirror of p3 reflected on the plane whose normal is p2 - p1 and passes by the midpoint of p2 - p1:
-			Vector3D normal = p2-p1; // Normal of the plane: p2 - p1
-			double k=0.5*Vector3D.DotProduct(normal,p2+p1); // Orthogonal distance from the origin to the plane, such that: normal * p1_2 = k
-															// A line is defined between p3 and its reflection (the virtual point).
-															// This line is orthogonal to the plane and its equation is: X(t) = p3 + t * normal
-															// t0 is the value of the parameter t for which this line intersects the plane
+			Vector3D normal = p2 - p1; // Normal of the plane: p2 - p1
+			double k = 0.5 * Vector3D.DotProduct(normal, p2 + p1); // Orthogonal distance from the origin to the plane, such that: normal * p1_2 = k
+																   // A line is defined between p3 and its reflection (the virtual point).
+																   // This line is orthogonal to the plane and its equation is: X(t) = p3 + t * normal
+																   // t0 is the value of the parameter t for which this line intersects the plane
 			double t0 = (k - Vector3D.DotProduct(normal, p3)) / normal.LengthSquared;
-			Vector3D M = p3+normal*t0; // Midpoint between p3 and p0. It corresponds to X(t0) = p3 + t0 * normal
-									   // Finally, the virtual point is calculated such that M is the average between p3 and the virtual point:
+			Vector3D M = p3 + normal * t0; // Midpoint between p3 and p0. It corresponds to X(t0) = p3 + t0 * normal
+										   // Finally, the virtual point is calculated such that M is the average between p3 and the virtual point:
 			var virtual_point = M * 2 - p3;
 			ComputeCoeficientsForAnchors(virtual_point, p1, p2, p3);
 		}
@@ -222,7 +218,7 @@ namespace SplineOpenTK
 
 			//Segment by segment chordal length:
 			for (int i = 1; i < AnchorPoints.Count; ++i)
-				TG[i] = AnchorPoints[i].DistanceFrom(AnchorPoints[i - 1]);
+				TG[i] = Convert.ToSingle(AnchorPoints[i].DistanceTo(AnchorPoints[i - 1]));
 
 			//Accumulate and normalize global parameter:
 			for (int i = 1; i < AnchorPoints.Count; ++i)
@@ -241,9 +237,9 @@ namespace SplineOpenTK
 		/// <param name="p3">Point [i+2]</param>
 		private void ComputeCoeficientsForAnchors(Vector3D p0, Vector3D p1, Vector3D p2, Vector3D p3)
 		{
-			float d01 = p0.DistanceFrom(p1);
-			float d12 = p1.DistanceFrom(p2);
-			float d23 = p2.DistanceFrom(p3);
+			float d01 = Convert.ToSingle(p0.DistanceTo(p1));
+			float d12 = Convert.ToSingle(p1.DistanceTo(p2));
+			float d23 = Convert.ToSingle(p2.DistanceTo(p3));
 			Vector3D T1 = (p1 - p0) / d01 - (p2 - p0) / (d01 + d12) + (p2 - p1) / d12;
 			T1 = T1 * d12;
 			Vector3D T2 = (p2 - p1) / d12 - (p3 - p1) / (d12 + d23) + (p3 - p2) / d23;
@@ -256,53 +252,31 @@ namespace SplineOpenTK
 		}
 		#endregion
 
-		public virtual Plane NormalPlaneAt(float ts)
-		{
-			return new Plane(EvaluateTangentAt(ts), EvaluateAt(ts));
-		}
-
-		public List<Vector3D> ProyectedCPR(Plane plane)
-		{
-			List<Vector3D> puntosProyectados = new List<Vector3D>();
-			for(int i = 0; i < 100; i++)
-			{
-				puntosProyectados.Add(ProyectPointToPlane(plane, (float)i / 100));
-			}
-			return puntosProyectados;
-		}
-
-
-		public Vector3D ProyectPointToPlane(Plane plane,float ts)
-		{
-			Vector3D normal = plane.Normal; // Normal of the plane: p2 - p1
-			double k = 0.5 * Vector3D.DotProduct(normal, plane.Origen + normal); // Orthogonal distance from the origin to the plane, such that: normal * p1_2 = k
-																   // A line is defined between p3 and its reflection (the virtual point).
-																   // This line is orthogonal to the plane and its equation is: X(t) = p3 + t * normal
-																   // t0 is the value of the parameter t for which this line intersects the plane
-			double t0 = (k - Vector3D.DotProduct(normal, EvaluateAt(ts))) / normal.LengthSquared;
-			Vector3D PointOnPlane = EvaluateAt(ts) + normal * t0; // Midpoint between p3 and p0. It corresponds to X(t0) = p3 + t0 * normal
-			return PointOnPlane;					  
-		}
-
 
 
 		public void CopyToClipboard()
 		{
-			string points="";
-			for(int i=0;i<1000;i++)
-				points+=EvaluateAt((float)i / 1000).ToString()+"\n";
+			string points = "";
+			for (int i = 0; i < 1000; i++)
+				points += EvaluateAt((float)i / 1000).ToString() + "\n";
 			Clipboard.Clear();
 			Clipboard.SetText(points, TextDataFormat.Text);
 		}
 
-		public void ConvertToXYZ_file(string filename)
+		public void ConvertToXYZ_file(string filename,int Samples=100,Vector3D Offset=null)
 		{
+
 			List<string> lines = new List<string>();
-			for (int i = 0; i < 100; i++)
+			if (Offset == null)
+				Offset = new Vector3D(1.25f, 1.25f, 6.25f);
+			for (int i = 0; i < Samples; i++)
 			{
-				var vec = EvaluateAt((float)i / 100);
-				string line = $"{vec.X} {vec.Y} {vec.Z}";
+				var vec = EvaluateAt((float)i / Samples);
+				var imprimir = vec - Offset;
+				string line = $"{imprimir.X} {imprimir.Y} {imprimir.Z}";
+				lines.Add(line);
 			}
+			
 			File.WriteAllLines(filename + ".xyz", lines.ToArray());
 
 		}

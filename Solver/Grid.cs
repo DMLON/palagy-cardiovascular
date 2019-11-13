@@ -17,14 +17,17 @@ namespace Solver
 			grid = new Node3D[N, M, L];
 		}
 
-		public void ConvertToXYZ_file(string filename)
+		public void ConvertToXYZ_file(string filename,Vector3D Offset=null)
 		{
 			List<string> lines = new List<string>();
+			if(Offset==null)
+				Offset = new Vector3D(1.25f, 1.25f, 6.25f);
 			foreach(var node in grid)
 			{
 				if (node.Black)
 				{
-					string line = $"{node.Position.ToString().Replace(',',' ')}";
+					var imprimir = node.Position - Offset;
+					string line = $"{imprimir.X} {imprimir.Y} {imprimir.Z}";
 					lines.Add(line);
 				}
 			}

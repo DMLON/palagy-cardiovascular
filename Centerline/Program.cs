@@ -8,6 +8,8 @@ using Palagy;
 using OpenTKTest;
 using OpenTKLib;
 using System.Windows.Forms;
+using SplineOpenTK;
+//using SplineOpenTK;
 
 namespace Centerline
 {
@@ -47,22 +49,36 @@ namespace Centerline
 				}
 			}
 			CubeAtPos(ref map2, new Vector3D(10, 15, 125), 10);
-
+			CubeAtPos(ref map2, new Vector3D(20, 35, 200), 15);
+			CubeAtPos(ref map2, new Vector3D(25, 15, 170), 13);
+			CubeAtPos(ref map2, new Vector3D(35, 35, 150), 10);
 			Grid3D map2_grid = new Grid3D(map2,0.05f);
+			var StartPoint = new Vector3D(30 * 0.05f, 30 * 0.05f, 101 * 0.05f);
+			var EndPoint = new Vector3D(17 * 0.05f, 20 * 0.05f, 224 * 0.05f);
+			var thin = PalagySolver.PalagyThinning(map2, new Vector3D[] { StartPoint, EndPoint },0.05f);
+			
 
-			var thin = PalagySolver.PalagyThinning(map2, new Vector3D[] { new Vector3D(30* 0.05f, 30* 0.05f, 101* 0.05f), new Vector3D(17* 0.05f, 20* 0.05f, 224* 0.05f) },0.05f);
-			thin.ConvertToXYZ_file("test");
+			//Djistra
+			var Solution = DjikstraSolver.SolveGridWeightedDistance(thin, StartPoint, EndPoint);
+
+			//Spline
+			Spline SolutionSpline = new Spline(Solution);
+
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			var app = new OpenTKForm();
-			GLSettings.InitFromSettings_Palagy();
-			app.LoadModelFromFile("test.xyz");
+			GLSettings.InitFromSettings_Palagy(false);
 
-			map2_grid.ConvertToXYZ_file("test2");
+			map2_grid.ConvertToXYZ_file("Map2");
+			thin.ConvertToXYZ_file("Thin");
+			SolutionSpline.ConvertToXYZ_file("Centerline");
 
-			app.LoadModelFromFile("test2.xyz");
+			app.LoadModelFromFile("Thin.xyz");
+			app.LoadModelFromFile("Map2.xyz");
+			app.LoadModelFromFile("Centerline.xyz");
+
 			Application.Run(app);
 
 		}

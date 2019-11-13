@@ -77,6 +77,57 @@ namespace Solver
 			return Math.Sqrt((v.X - X) * (v.X - X) + (v.Y - Y) * (v.Y - Y) + (v.Z - Z) * (v.Z - Z));
 
 		}
+
+		public static Vector3D operator-(Vector3D v1, Vector3D v2)
+		{
+			return new Vector3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+		}
+
+		public static Vector3D operator +(Vector3D v1, Vector3D v2)
+		{
+			return new Vector3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+		}
+
+		public static Vector3D operator *(Vector3D v1, int i)
+		{
+			return new Vector3D(v1.X * i, v1.Y * i, v1.Z * i);
+		}
+
+		public static Vector3D operator *(Vector3D v1, double d)
+		{
+			return new Vector3D(Convert.ToSingle(v1.X * d), Convert.ToSingle(v1.Y * d), Convert.ToSingle(v1.Z * d));
+		}
+
+		public static Vector3D operator *(int i, Vector3D v1)
+		{
+			return new Vector3D(v1.X * i, v1.Y * i, v1.Z * i);
+		}
+
+		public static Vector3D operator *(double d,Vector3D v1)
+		{
+			return new Vector3D(Convert.ToSingle(v1.X * d), Convert.ToSingle(v1.Y * d), Convert.ToSingle(v1.Z * d));
+		}
+
+		public static Vector3D operator /(Vector3D v1, int i)
+		{
+			return new Vector3D(v1.X / i, v1.Y / i, v1.Z / i);
+		}
+
+		public static Vector3D operator /(Vector3D v1, double d)
+		{
+			return new Vector3D(Convert.ToSingle(v1.X / d), Convert.ToSingle(v1.Y / d), Convert.ToSingle(v1.Z / d));
+		}
+
+		public static double DotProduct(Vector3D v1, Vector3D v2)
+		{
+			return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+		}
+
+		public double LengthSquared { get
+			{
+				return X * X + Y * Y + Z * Z;
+			}
+		}
 	}
 
 	[DebuggerDisplay("{Position.ToString()},Black = {Black}")]

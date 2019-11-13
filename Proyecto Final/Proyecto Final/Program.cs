@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace Proyecto_Final
+namespace SplineOpenTK
 {
 	class Program
 	{
