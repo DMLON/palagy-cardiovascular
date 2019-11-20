@@ -20,8 +20,8 @@ namespace Solver
 		public void ConvertToXYZ_file(string filename,Vector3D Offset=null)
 		{
 			List<string> lines = new List<string>();
-			if(Offset==null)
-				Offset = new Vector3D(1.25f, 1.25f, 6.25f);
+			//if(Offset==null)
+			//	Offset = new Vector3D(1.25f, 1.25f, 6.25f);
 			foreach(var node in grid)
 			{
 				if (node.Black)

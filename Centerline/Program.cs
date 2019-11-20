@@ -35,7 +35,12 @@ namespace Centerline
 		[STAThread]
 		static void Main(string[] args)
 		{
-			int[,,] map2 = new int[50, 50, 250];
+            DicomVisualizer dv = new DicomVisualizer(@"C:\Users\Universidad Favaloro\Downloads\AortofemoralNormal1\OSMSC0110-aorta\image_data\volume");
+
+
+
+
+            int[,,] map2 = new int[50, 50, 250];
 			for (int i = 0; i < 50; i++)
 			{
 				for (int j = 0; j < 50; j++)
