@@ -46,15 +46,18 @@ namespace Centerline
                 }
                 //Umbralizo 100 - 220
                 var Umbral = pixels16.Select(x => x > 80 ? x < 220 ? 1.0 : 0.0 : 0.0).ToArray();
-                var Umbral2D = ConvertArray(Umbral, dicomDecoder.width);
+                var Umbral2D = new double[512 / 2][];//ConvertArray(Umbral, dicomDecoder.width);
                 Mat mat = new Mat(512, 512, MatType.CV_64F, Umbral);
+                //Mat destinoDownSampling = new Mat();
+                //Cv2.Resize(mat, destinoDownSampling, new OpenCvSharp.Size(512 / 2, 512 / 2));
                 Mat destino = new Mat();
-
+               
                 Cv2.MorphologyEx(mat, destino, MorphTypes.Open, Cv2.GetStructuringElement(MorphShapes.Ellipse, new OpenCvSharp.Size(7, 7)));
                 //Application.Run(new Form1(Umbral2D));
-                for (int i = 0; i < 512; ++i)
+                for (int i = 0; i < 512/2; ++i)
                 {
-                    for (int j = 0; j < 512; ++j)
+                    Umbral2D[i] = new double[512 / 2];
+                    for (int j = 0; j < 512/2; ++j)
                     {
                         Umbral2D[i][j] = destino.At<double>(i, j);
                     }
@@ -66,22 +69,19 @@ namespace Centerline
 
             //listaPrematriz.Reverse();
             matriz = listaPrematriz.ToArray();
-            //var grid = Convert3DArray(matriz);
-            //Grid3D grid3D = new Grid3D(grid, 0.05f);
-            //grid3D.ConvertToXYZ_file("test");
-            
-            
+
+            //TODO: Scale (Downsampling using Nearest Neighbour 3D!
             //Region growth given a point
-            Vector3D StartPoint = new Vector3D(32, 256, 256);
+            Vector3D StartPoint = new Vector3D(32/2, 256/2, 256/2);
             var MatrizRG = RegionGrowth(matriz, StartPoint);
             
-            var thinCiclemap = PalagySolver.PalagyThinning(Convert3DArray(MatrizRG));
+           // var thinCiclemap = PalagySolver.PalagyThinning(Convert3DArray(MatrizRG));
 
-            thinCiclemap.ConvertToXYZ_file("test3Thin");
+            //thinCiclemap.ConvertToXYZ_file("test3Thin");
             ConvertToXYZ_file(MatrizRG, "test3");
             var app = new OpenTKForm();
             app.LoadModelFromFile("test3.xyz");
-            app.LoadModelFromFile("test3Thin.xyz");
+            //app.LoadModelFromFile("test3Thin.xyz");
             Application.Run(app);
             app.Dispose();
         }
