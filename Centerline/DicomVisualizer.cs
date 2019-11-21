@@ -46,7 +46,7 @@ namespace Centerline
                 }
                 //Umbralizo 100 - 220
                 var Umbral = pixels16.Select(x => x > 80 ? x < 220 ? 1.0 : 0.0 : 0.0).ToArray();
-                var Umbral2D = new double[512 / 2][];//ConvertArray(Umbral, dicomDecoder.width);
+                var Umbral2D = new double[512][];//ConvertArray(Umbral, dicomDecoder.width);
                 Mat mat = new Mat(512, 512, MatType.CV_64F, Umbral);
                 //Mat destinoDownSampling = new Mat();
                 //Cv2.Resize(mat, destinoDownSampling, new OpenCvSharp.Size(512 / 2, 512 / 2));
@@ -54,10 +54,10 @@ namespace Centerline
                
                 Cv2.MorphologyEx(mat, destino, MorphTypes.Open, Cv2.GetStructuringElement(MorphShapes.Ellipse, new OpenCvSharp.Size(7, 7)));
                 //Application.Run(new Form1(Umbral2D));
-                for (int i = 0; i < 512/2; ++i)
+                for (int i = 0; i < 512; ++i)
                 {
-                    Umbral2D[i] = new double[512 / 2];
-                    for (int j = 0; j < 512/2; ++j)
+                    Umbral2D[i] = new double[512];
+                    for (int j = 0; j < 512; ++j)
                     {
                         Umbral2D[i][j] = destino.At<double>(i, j);
                     }
@@ -71,19 +71,51 @@ namespace Centerline
             matriz = listaPrematriz.ToArray();
 
             //TODO: Scale (Downsampling using Nearest Neighbour 3D!
+            float scale = 0.5f; //Mitad de puntos
+            var matrizDownSample = DownSample(matriz, scale);
             //Region growth given a point
-            Vector3D StartPoint = new Vector3D(32/2, 256/2, 256/2);
-            var MatrizRG = RegionGrowth(matriz, StartPoint);
+            Vector3D StartPoint = new Vector3D(32 * scale, 256 * scale, 256 * scale);
+            var MatrizRG = RegionGrowth(matrizDownSample, StartPoint);
             
-           // var thinCiclemap = PalagySolver.PalagyThinning(Convert3DArray(MatrizRG));
+            var thinCiclemap = PalagySolver.PalagyThinning(Convert3DArray(MatrizRG),null,0.1f);
 
-            //thinCiclemap.ConvertToXYZ_file("test3Thin");
+            thinCiclemap.ConvertToXYZ_file("test3Thin");
             ConvertToXYZ_file(MatrizRG, "test3");
             var app = new OpenTKForm();
+            //GLSettings.InitFromSettings_Palagy(false);
             app.LoadModelFromFile("test3.xyz");
-            //app.LoadModelFromFile("test3Thin.xyz");
+            app.LoadModelFromFile("test3Thin.xyz");
             Application.Run(app);
             app.Dispose();
+        }
+
+        private double[][][] DownSample(double[][][] matriz, float scale)
+        {
+            //Adds zero padding
+            int Xmax = matriz.Length;
+            int Ymax = matriz[0].Length;
+            int Zmax = matriz[0][0].Length;
+            double[][][] Output = new double[(int)(Xmax*scale+2)][][];
+            for (int i = 0; i < Xmax* scale+2; ++i)
+            {
+                Output[i] = new double[(int)(Ymax * scale+2)][];
+                for (int j = 0; j < Ymax * scale+2; ++j)
+                {
+                    Output[i][j] = new double[(int)(Zmax * scale+2)];
+                    for (int k = 0; k < Zmax * scale+2; ++k)
+                    {
+                        if (i == 0) { Output[i][j][k] = 0; continue; }
+                        if (j == 0) { Output[i][j][k] = 0; continue; }
+                        if (k == 0) { Output[i][j][k] = 0; continue; }
+                        if (i == Xmax * scale+1) { Output[i][j][k] = 0; continue; }
+                        if (j == Ymax * scale+1) { Output[i][j][k] = 0; continue; }
+                        if (k == Zmax * scale+1) { Output[i][j][k] = 0; continue; }
+                        Output[i][j][k] = matriz[(int)(i /scale)-1][(int)(j / scale)-1][(int)(k / scale)-1];
+                    }
+                }
+            }
+            return Output;
+
         }
 
         private double[][][] RegionGrowth(double[][][] matriz, Vector3D SeedPoint)
@@ -119,7 +151,7 @@ namespace Centerline
                         for (int k = Z-1; k < Z+2; ++k)
                         {
                             if (i < 0 || j < 0 || k < 0) continue;
-                            if (i > Xmax || j > Ymax || k > Zmax) continue;
+                            if (i >= Xmax || j >= Ymax || k >= Zmax) continue;
                             if (i == X && j == Y && k == Z) continue;
                             if (matriz[i][j][k] > 0 && !visited[i][j][k])
                             {

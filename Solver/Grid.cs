@@ -26,8 +26,11 @@ namespace Solver
 			{
 				if (node.Black)
 				{
-					var imprimir = node.Position - Offset;
-					string line = $"{imprimir.X} {imprimir.Y} {imprimir.Z}";
+                    Vector3D imprimir;
+                    if (Offset!=null)
+					   imprimir = node.Position - Offset;
+                    else imprimir = node.Position;
+                    string line = $"{imprimir.X} {imprimir.Y} {imprimir.Z}";
 					lines.Add(line);
 				}
 			}
