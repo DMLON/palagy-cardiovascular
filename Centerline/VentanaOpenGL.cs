@@ -7,7 +7,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
-namespace SplineOpenTK
+namespace Centerline
 {
 	public class VentanaOpenGL
 	{
@@ -40,9 +40,6 @@ namespace SplineOpenTK
 		void OnMouseWheelMove(object o, MouseWheelEventArgs e)
 		{
 			//Mueve plano con la ruedita
-			planePos += (float)e.DeltaPrecise/100;
-			objects.Remove(objects.Last());
-			objects.Add(((SplineRender)(objects.First())).NormalPlaneAt(planePos));
 		}
 
 		void OnKeyPress(object o, KeyPressEventArgs e)
@@ -68,7 +65,7 @@ namespace SplineOpenTK
 			GL.Viewport(0, 0, window.Width, window.Height);
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
-			GL.Ortho(-5, 5, -5, 10, -10, 100);
+			GL.Ortho(-5, 5, -5, 10, -10, 10);
 			GL.MatrixMode(MatrixMode.Modelview);
 
 

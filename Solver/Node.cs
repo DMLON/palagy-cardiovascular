@@ -98,7 +98,12 @@ namespace Solver
 			return new Vector3D(Convert.ToSingle(v1.X * d), Convert.ToSingle(v1.Y * d), Convert.ToSingle(v1.Z * d));
 		}
 
-		public static Vector3D operator *(int i, Vector3D v1)
+        public static Vector3D operator *(Vector3D v1, float d)
+        {
+            return new Vector3D(Convert.ToSingle(v1.X * d), Convert.ToSingle(v1.Y * d), Convert.ToSingle(v1.Z * d));
+        }
+
+        public static Vector3D operator *(int i, Vector3D v1)
 		{
 			return new Vector3D(v1.X * i, v1.Y * i, v1.Z * i);
 		}

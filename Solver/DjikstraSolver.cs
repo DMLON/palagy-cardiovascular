@@ -277,6 +277,7 @@ namespace Solver
 			var solution = new List<Vector3D>();
 			bool solvable = false;
 			PriorityQueue<Node3D> Candidates = new PriorityQueue<Node3D>();
+            Grid.Reset();
 			Candidates.Enqueue(Grid[Start]);
 			Grid[Start].Visited = true;
 			Grid[Start].Distance = 0;

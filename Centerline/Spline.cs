@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Solver;
-namespace SplineOpenTK
+namespace Centerline
 {
 	//Centripetal Catmull–Rom spline
 	public class Spline
@@ -268,7 +268,7 @@ namespace SplineOpenTK
 
 			List<string> lines = new List<string>();
 			if (Offset == null)
-				Offset = new Vector3D(1.25f, 1.25f, 6.25f);
+				Offset = new Vector3D(0, 0, 0);
 			for (int i = 0; i < Samples; i++)
 			{
 				var vec = EvaluateAt((float)i / Samples);

@@ -87,6 +87,12 @@
   <ItemGroup>
     <Compile Include="DicomDecoder.cs" />
     <Compile Include="DicomDictionary.cs" />
+    <Compile Include="DicomViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DicomViewerForm.Designer.cs">
+      <DependentUpon>DicomViewerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DicomVisualizer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -94,9 +100,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IRenderObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spline.cs" />
+    <Compile Include="SplineRender.cs" />
+    <Compile Include="VentanaOpenGL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -115,12 +124,19 @@
       <Project>{0f076da6-ba9b-4057-892b-dd0f095eef83}</Project>
       <Name>Palagy</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Proyecto Final\Proyecto Final\SplineOpenTK.csproj">
+      <Project>{21C57FB8-8710-414C-B3EF-65AFFEF34962}</Project>
+      <Name>SplineOpenTK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Solver\Solver.csproj">
       <Project>{9bd87bd4-44e9-4627-9b62-41f97e16bac6}</Project>
       <Name>Solver</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DicomViewerForm.resx">
+      <DependentUpon>DicomViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -171,7 +171,64 @@ namespace Solver
 			set => SetNodeAtPos(key, value);
 		}
 
-	}
+        public Vector3D GetClosestPointTo(Vector3D point)
+        {
+            int Xmax = Size[0];
+            int Ymax = Size[1];
+            int Zmax = Size[2];
+            bool[][][] visited = new bool[Xmax][][];
+
+            for (int i = 0; i < Xmax; ++i)
+            {
+                visited[i] = new bool[Ymax][];
+                for (int j = 0; j < Ymax; ++j)
+                {
+                    visited[i][j] = new bool[Zmax];
+                    for (int k = 0; k < Zmax; ++k)
+                    {
+                        visited[i][j][k] = false;
+                    }
+                }
+            }
+            Queue<Vector3D> Candidates = new Queue<Vector3D>();
+            Candidates.Enqueue(point);
+            visited[(int)(point.X / SamplingRate)][(int)(point.Y / SamplingRate)][(int)(point.Z / SamplingRate)] = true;
+            int it = 0;
+            while (Candidates.Count > 0)
+            {
+                var NodoExaminar = Candidates.Dequeue();
+                int X = Convert.ToInt32((NodoExaminar.X/SamplingRate)); int Y = (Convert.ToInt32(NodoExaminar.Y / SamplingRate)); int Z = Convert.ToInt32((NodoExaminar.Z / SamplingRate));
+                it++;
+                if (it == 44530)
+                    it++;
+                for (int i = X - 1; i < X + 2; ++i)
+                {
+                    for (int j = Y - 1; j < Y + 2; ++j)
+                    {
+                        for (int k = Z - 1; k < Z + 2; ++k)
+                        {
+                            if (i < 0 || j < 0 || k < 0) continue;
+                            if (i >= Xmax || j >= Ymax || k >= Zmax) continue;
+                            if (i == X && j == Y && k == Z) continue;
+                            if (!visited[i][j][k])
+                            {
+                                if (grid[i, j, k].IsEndPoint && grid[i, j, k].Black)
+                                    return grid[i, j, k].Position;
+                                Candidates.Enqueue(new Vector3D(i*SamplingRate, j * SamplingRate, k * SamplingRate));
+                                visited[i][j][k] = true;
+                            }
+                            if (grid[i, j, k].IsEndPoint && grid[i, j, k].Black)
+                                return grid[i, j, k].Position;
+                        }
+                    }
+                }
+
+            }
+            return null;
+
+        }
+
+    }
 
 
 	public class Grid

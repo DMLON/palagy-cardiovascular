@@ -217,10 +217,13 @@ namespace OpenTKLib
                 // Update the text box color if the user clicks OK 
                 if (colDiag.ShowDialog() == DialogResult.OK)
                 {
-                    RenderableObject pcr = this.OGLControl.GLrender.RenderableObjects[this.OGLControl.GLrender.SelectedModelIndex];
-                    PointCloud pc = pcr.PointCloud;
-                    pc.SetColor(new Vector3(colDiag.Color.R / 255f, colDiag.Color.G / 255f, colDiag.Color.B / 255f));
-                    this.OGLControl.Refresh();
+                    if (this.OGLControl.GLrender.SelectedModelIndex != -1)
+                    {
+                        RenderableObject pcr = this.OGLControl.GLrender.RenderableObjects[this.OGLControl.GLrender.SelectedModelIndex];
+                        PointCloud pc = pcr.PointCloud;
+                        pc.SetColor(new Vector3(colDiag.Color.R / 255f, colDiag.Color.G / 255f, colDiag.Color.B / 255f));
+                        this.OGLControl.Refresh();
+                    }
                 }
             }
             else

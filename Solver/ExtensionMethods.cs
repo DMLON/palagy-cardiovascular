@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,11 @@ namespace Solver
                 return it;
             }
             return default(T);
+        }
+
+        public static Vector3 ToOpenTKVector(this Vector3D vector)
+        {
+            return new Vector3(Convert.ToSingle(vector.X), Convert.ToSingle(vector.Y), Convert.ToSingle(vector.Z));
         }
 
         public static T RemoveAndGet<T>(this IList<T> list, int index)
