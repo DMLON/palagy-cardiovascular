@@ -36,10 +36,13 @@ namespace Centerline
             double[][][] matriz;
             List<double[][]> listaPrematriz = new List<double[][]>();
             int it = 2;
+            Stopwatch2 stopWatch = new Stopwatch2();
+            stopWatch.Start();
             while (true)
             {
 
                 var file = fileName + $@"\I.{it.ToString("000")}.dcm";
+                Logger.LogStart($"Trying to read {file}");
                 try
                 {
                     dicomDecoder.DicomFileName = file;
@@ -49,6 +52,7 @@ namespace Centerline
                     break; //Dejo de leer
                 }
                 //Umbralizo 100 - 220
+                Logger.LogEndSuccess();
                 var Umbral = pixels16.Select(x => x > 80 ? x < 220 ? 1.0 : 0.0 : 0.0).ToArray();
                 var Umbral2D = new double[512][];//ConvertArray(Umbral, dicomDecoder.width);
                 Mat mat = new Mat(512, 512, MatType.CV_64F, Umbral);
@@ -72,10 +76,11 @@ namespace Centerline
             }
             //TODO: Visualizo cortes y me quedo con 2 puntos
             float scale = 0.5f; //Mitad de puntos
+            stopWatch.Stop();
             DicomViewerForm dicomViewerForm = new DicomViewerForm(fileName, scale);
             Application.Run(dicomViewerForm);
             dicomViewerForm.Dispose();
-
+            stopWatch.Start();
 
             //+1 por el zero padding
             //var PathFindingStartPointTemp = new Vector3D((512 - 291 + 1) * scale, (512 - 13 + 1) * scale, (5 + 1) * scale);//146,7,3
@@ -85,49 +90,62 @@ namespace Centerline
             //var PathFindingEndPointTemp = new Vector3D((512 - 319 + 1) * scale, (512 - 471 + 1) * scale, (51 + 1) * scale);//165,247,29
             //PathFindingEndPoint = new Vector3D((int)PathFindingEndPointTemp.Z*0.1f, (int)PathFindingEndPointTemp.Y * 0.1f,(int)PathFindingEndPointTemp.X * 0.1f);
             //listaPrematriz.Reverse();
+
             matriz = listaPrematriz.ToArray();
+            
 
-
+            Logger.LogStart($"Downsample by {scale}");
             var matrizDownSample = DownSample(matriz, scale);
+            Logger.LogEndSuccess();
+
+
             //Region growth given a point
+            Logger.LogStart($"Region Growth");
             Vector3D SeedStartPoint = new Vector3D(32 * scale, 256 * scale, 256 * scale);
             var MatrizRG = RegionGrowth(matrizDownSample, SeedStartPoint);
-            
+            Logger.LogEndSuccess();
+
+
             //palagy
+            Logger.LogStart($"Palagy");
             var thinCiclemap = PalagySolver.PalagyThinning(Convert3DArray(MatrizRG),null,0.1f); //new Vector3D[] {PathFindingStartPoint,PathFindingEndPoint }
+            Logger.LogEndSuccess();
 
             //Path finding con los puntos dados
+            Logger.LogStart($"Dijkstra Solver");
             var solucion = DjikstraSolver.SolveGridWeightedDistance(thinCiclemap, thinCiclemap.GetClosestPointTo(PathFindingStartPoint), thinCiclemap.GetClosestPointTo(PathFindingEndPoint));
+            Logger.LogEndSuccess();
 
             //scale up
             for (int i = 0; i < solucion.Count; ++i)
                 solucion[i] = solucion[i] / scale;//scaleo los puntos de la solucion
 
             //Spline con solucion
+            Logger.LogStart($"To build Spline");
             Spline solucionSpline = new Spline(solucion);
             solucionSpline.ConvertToXYZ_file("AortaCenterline", 1000, new Vector3D(32 * (-2) * scale / 10f, 256 * scale / 10f, 256 * scale / 10f));
-
+            Logger.LogEndSuccess();
 
             //Obtengo todas las centerlines del arbol arterial---------
-            //List<Node3D> Endpoints = new List<Node3D>();
-            //foreach (var n in thinCiclemap.grid)
-            //{
-            //    if (n.Black)
-            //        if (n.IsEndPoint)
-            //            Endpoints.Add(n);
-            //}
+            List<Node3D> Endpoints = new List<Node3D>();
+            foreach (var n in thinCiclemap.grid)
+            {
+                if (n.Black)
+                    if (n.IsEndPoint)
+                        Endpoints.Add(n);
+            }
 
-            //for (int i = 0; i < Endpoints.Count; ++i)
-            //{
-            //    solucion = DjikstraSolver.SolveGridWeightedDistance(thinCiclemap, thinCiclemap.GetClosestPointTo(PathFindingStartPoint), Endpoints[i].Position);
-            //    if (solucion.Count > 0)
-            //    {
-            //        for (int j = 0; j < solucion.Count; ++j)
-            //            solucion[j] = solucion[j] / scale;//scaleo los puntos de la solucion
-            //        solucionSpline = new Spline(solucion);
-            //        solucionSpline.ConvertToXYZ_file($"AortaCenterline{i}", 1000, new Vector3D(32 * (-2) * scale / 10f, 256 * scale / 10f, 256 * scale / 10f));
-            //    }
-            //}
+            for (int i = 0; i < Endpoints.Count; ++i)
+            {
+                solucion = DjikstraSolver.SolveGridWeightedDistance(thinCiclemap, thinCiclemap.GetClosestPointTo(PathFindingStartPoint), Endpoints[i].Position);
+                if (solucion.Count > 0)
+                {
+                    for (int j = 0; j < solucion.Count; ++j)
+                        solucion[j] = solucion[j] / scale;//scaleo los puntos de la solucion
+                    solucionSpline = new Spline(solucion);
+                    solucionSpline.ConvertToXYZ_file($"AortaCenterline{i}", 1000, new Vector3D(32 * (-2) * scale / 10f, 256 * scale / 10f, 256 * scale / 10f));
+                }
+            }
             //--------------
 
 
@@ -140,11 +158,12 @@ namespace Centerline
             app.LoadModelFromFile("AortaSkele.xyz");
             app.LoadModelFromFile("AortaCenterline.xyz");
 
-            //for (int i = 0; i < Endpoints.Count; ++i)
-            //{
-            //    app.LoadModelFromFile($"AortaCenterline{i}.xyz");
-            //}
-
+            for (int i = 0; i < Endpoints.Count; ++i)
+            {
+                app.LoadModelFromFile($"AortaCenterline{i}.xyz");
+            }
+            Console.WriteLine("\nTime of algorithm:");
+            stopWatch.Stop();
             Application.Run(app);
             app.Dispose();
         }
