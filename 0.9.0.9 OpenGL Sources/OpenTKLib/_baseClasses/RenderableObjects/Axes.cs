@@ -69,11 +69,11 @@ namespace OpenTKLib
             this.PointCloud.Vectors = new Vector3[]
              {            
                 new Vector3(0, 0.0f, 0.0f),
-                new Vector3(axisLength, 0.0f, 0.0f),
+                new Vector3((float)axisLength, 0.0f, 0.0f),
                 new Vector3(0, 0.0f, 0.0f),
-                new Vector3(0.0f, axisLength, 0.0f),
+                new Vector3(0.0f, (float)axisLength, 0.0f),
                 new Vector3(0, 0.0f, 0.0f),
-                new Vector3(0.0f, 0.0f, axisLength)
+                new Vector3(0.0f, 0.0f, (float)axisLength)
              };
 
 

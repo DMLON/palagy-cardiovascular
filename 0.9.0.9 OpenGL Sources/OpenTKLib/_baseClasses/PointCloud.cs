@@ -674,7 +674,7 @@ namespace OpenTKLib
         }
         public void Translate(double x, double y, double z)
         {
-            Vector3 translation = new Vector3(x, y, z);
+            Vector3 translation = new Vector3((float)x, (float)y, (float)z);
             for (int i = 0; i < this.Vectors.Length; i++)
             {
 
@@ -808,7 +808,7 @@ namespace OpenTKLib
                 double x = Convert.ToSingle(radius * Math.Cos(theta) * Math.Sin(azimuth));
                 double y = Convert.ToSingle(radius * Math.Sin(theta) * Math.Sin(azimuth));
                 double z = Convert.ToSingle(radius * Math.Cos(azimuth));
-                Vector3 vi = new Vector3(x, y, z);
+                Vector3 vi = new Vector3((float)x, (float)y, (float)z);
                 points.Add(vi);
             }
             PointCloud pointCloud = new PointCloud();
@@ -828,14 +828,14 @@ namespace OpenTKLib
             for (var i = 0; i < numberOfRandomPoints; i++)
             {
                 
-                var vi = new Vector3(cubeSize / 2, cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2, cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2);
+                var vi = new Vector3((float)cubeSize / 2, (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2, (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2);
                 points.Add(vi);
 
             }
             for (var i = 0; i < numberOfRandomPoints; i++)
             {
 
-                var vi = new Vector3(-cubeSize / 2, cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2, cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2);
+                var vi = new Vector3((float)-cubeSize / 2, (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2, (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2);
                 points.Add(vi);
 
             }
@@ -844,7 +844,7 @@ namespace OpenTKLib
             for (var i = 0; i < numberOfRandomPoints; i++)
             {
 
-                var vi = new Vector3(cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2, cubeSize / 2, cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2);
+                var vi = new Vector3((float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2, (float)cubeSize / 2, (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2);
                 points.Add(vi);
 
             }
@@ -852,9 +852,9 @@ namespace OpenTKLib
             {
                 
                 var vi = new Vector3(
-                    cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2,
-                    -cubeSize / 2,
-                    cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2);
+                    (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2,
+                    (float)-cubeSize / 2,
+                    (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2);
                 points.Add(vi);
 
             }
@@ -863,14 +863,14 @@ namespace OpenTKLib
             for (var i = 0; i < numberOfRandomPoints; i++)
             {
                 
-                var vi = new Vector3(cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2, cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2, -cubeSize / 2);
+                var vi = new Vector3((float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2, (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2, (float)-cubeSize / 2);
                 points.Add(vi);
 
             }
             for (var i = 0; i < numberOfRandomPoints; i++)
             {
                
-                var vi = new Vector3(cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2, cubeSize * Convert.ToSingle(r.NextDouble()) - cubeSize / 2, cubeSize / 2);
+                var vi = new Vector3((float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2, (float)cubeSize * Convert.ToSingle(r.NextDouble()) - (float)cubeSize / 2, (float)cubeSize / 2);
                 points.Add(vi);
 
             }

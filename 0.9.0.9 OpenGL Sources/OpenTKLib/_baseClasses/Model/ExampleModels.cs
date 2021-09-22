@@ -64,13 +64,13 @@ namespace OpenTKLib
             for (int i = 0; i < numberOfPoints; i++)
             {
 
-                arr[indexInModel] = new Vector3(0, v0, 0);
+                arr[indexInModel] = new Vector3(0, (float)v0, 0);
                 indexInModel++;
-                arr[indexInModel] = new Vector3(0, v0, u);
+                arr[indexInModel] = new Vector3(0, (float)v0, (float)u);
                 indexInModel++;
-                arr[indexInModel] = new Vector3(u, v0, u);
+                arr[indexInModel] = new Vector3((float)u, (float)v0, (float)u);
                 indexInModel++;
-                arr[indexInModel] = new Vector3(u, v0, 0);
+                arr[indexInModel] = new Vector3((float)u, (float)v0, 0);
 
                 v0 += v / numberOfPoints;
 
@@ -108,15 +108,15 @@ namespace OpenTKLib
 
             List<Vector3> listVectors = new List<Vector3>();
 
-            listVectors.Add(new Vector3(-cubeSizeX / 2, -cubeSizeY / 2, cubeSizeZ / 2));
-            listVectors.Add(new Vector3(cubeSizeX / 2, -cubeSizeY / 2, cubeSizeZ / 2));
-            listVectors.Add(new Vector3(cubeSizeX / 2, cubeSizeY / 2, cubeSizeZ / 2));
-            listVectors.Add(new Vector3(-cubeSizeX / 2, cubeSizeY / 2, cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)-cubeSizeX / 2, (float)-cubeSizeY / 2, (float)cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)cubeSizeX / 2, (float)-cubeSizeY / 2, (float)cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)cubeSizeX / 2, (float)cubeSizeY / 2, (float)cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)-cubeSizeX / 2, (float)cubeSizeY / 2, (float)cubeSizeZ / 2));
 
-            listVectors.Add(new Vector3(-cubeSizeX / 2, -cubeSizeY / 2, -cubeSizeZ / 2));
-            listVectors.Add(new Vector3(cubeSizeX / 2, -cubeSizeY / 2, -cubeSizeZ / 2));
-            listVectors.Add(new Vector3(cubeSizeX / 2, cubeSizeY / 2, -cubeSizeZ / 2));
-            listVectors.Add(new Vector3(-cubeSizeX / 2, cubeSizeY / 2, -cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)-cubeSizeX / 2, (float)-cubeSizeY / 2, (float)-cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)cubeSizeX / 2, (float)-cubeSizeY / 2, (float)-cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)cubeSizeX / 2, (float)cubeSizeY / 2, (float)-cubeSizeZ / 2));
+            listVectors.Add(new Vector3((float)-cubeSizeX / 2, (float)cubeSizeY / 2, (float)-cubeSizeZ / 2));
 
 
             return listVectors;
@@ -136,7 +136,7 @@ namespace OpenTKLib
 
                     for (int k = 0; k <= numberOfPointsPerPlane; k++)
                     {
-                        Vector3 v = new Vector3(startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane)), startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane)), startP * (-0.5f + k / Convert.ToSingle(numberOfPointsPerPlane)));
+                        Vector3 v = new Vector3((float)(startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane))), (float)(startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane))), (float)(startP * (-0.5f + k / Convert.ToSingle(numberOfPointsPerPlane))));
                         listVectors.Add(v);
 
                     }
@@ -163,7 +163,7 @@ namespace OpenTKLib
                         for (int k = 0; k <= numberOfPointsPerPlane; k++)
                         {
                             
-                            Vector3 v = new Vector3(startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane)), startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane)), startP * (-0.5f + k / Convert.ToSingle(numberOfPointsPerPlane)));
+                            Vector3 v = new Vector3((float)startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane)), (float)startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane)), (float)(startP * (-0.5f + k / Convert.ToSingle(numberOfPointsPerPlane))));
                             pointsList.Add(v);
 
                         }
@@ -172,11 +172,11 @@ namespace OpenTKLib
                     else
                     {
                         
-                        Vector3 v = new Vector3(startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane)), startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane)), startP * (-0.5f));
+                        Vector3 v = new Vector3((float)startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane)), (float)startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane)), (float)startP * (-0.5f));
                         pointsList.Add(v);
 
                         
-                        v = new Vector3(startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane)), startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane)), startP * (0.5f));
+                        v = new Vector3((float)startP * (-.5f + i / Convert.ToSingle(numberOfPointsPerPlane)), (float)startP * (-0.5f + j / Convert.ToSingle(numberOfPointsPerPlane)), (float)startP * (0.5f));
                         pointsList.Add(v);
                     }
                 }
@@ -205,18 +205,18 @@ namespace OpenTKLib
             int indeInModel = -1;
             for (int i = 0; i < numberOfPoints; i++)
             {
-                pointsList.Add(new Vector3(u0, 0, 0));
-                pointsList.Add(new Vector3(0, 0, u0));
-                pointsList.Add(new Vector3(u0, 0, u));
-                pointsList.Add(new Vector3(u, 0, u0));
-                pointsList.Add(new Vector3(0, v0, 0));
-                pointsList.Add(new Vector3(0, v0, u));
-                pointsList.Add(new Vector3(u, v0, u));
-                pointsList.Add(new Vector3(u, v0, 0));
-                pointsList.Add(new Vector3(u0, v, 0));
-                pointsList.Add(new Vector3(0, v, u0));
-                pointsList.Add(new Vector3(u0, v, u));
-                pointsList.Add(new Vector3(u, v, u0));
+                pointsList.Add(new Vector3((float)u0, 0, 0));
+                pointsList.Add(new Vector3(0, 0, (float)u0));
+                pointsList.Add(new Vector3((float)u0, 0, (float)u));
+                pointsList.Add(new Vector3((float)u, 0, (float)u0));
+                pointsList.Add(new Vector3(0, (float)v0, 0));
+                pointsList.Add(new Vector3(0, (float)v0, (float)u));
+                pointsList.Add(new Vector3((float)u, (float)v0, (float)u));
+                pointsList.Add(new Vector3((float)u, (float)v0, 0));
+                pointsList.Add(new Vector3((float)u0,(float) v, 0));
+                pointsList.Add(new Vector3(0, (float)v, (float)u0));
+                pointsList.Add(new Vector3((float)u0, (float)v, (float)u));
+                pointsList.Add(new Vector3((float)u, (float)v, (float)u0));
 
                 u0 += u / 100;
                 v0 += v / 100;
@@ -254,7 +254,7 @@ namespace OpenTKLib
                     for (int k = 0; k <= pointsMaxZ; k++)
                     {
                         indexInModel++;
-                        Vector3 v = new Vector3(i * stepX, j * stepY, k * stepZ);
+                        Vector3 v = new Vector3((float)(i * stepX), (float)(j * stepY), (float)(k * stepZ));
                         pointsList.Add(v);
                     }
                 }
@@ -289,7 +289,7 @@ namespace OpenTKLib
                         for (int k = 0; k <= pointsMaxZ; k++)
                         {
                             indexInModel++;
-                            Vector3 v = new Vector3(i * stepX, j * stepY, k * stepZ);
+                            Vector3 v = new Vector3((float)(i * stepX), (float)(j * stepY), (float)(k * stepZ));
                             pointsList.Add(v);
 
                             //indexInModel++;
@@ -302,11 +302,11 @@ namespace OpenTKLib
                     else
                     {
                         
-                        Vector3 v = new Vector3( i * stepX, j * stepY, 0);
+                        Vector3 v = new Vector3((float)(i * stepX), (float)(j * stepY), 0);
                         pointsList.Add(v);
 
                         
-                        v = new Vector3( i * stepX, j * stepY, zMax);
+                        v = new Vector3((float)( i * stepX), (float)(j * stepY), (float)zMax);
                         pointsList.Add(v);
 
                       
@@ -341,7 +341,7 @@ namespace OpenTKLib
                 for (int j = 0; j < pointsMaxY; j++)
                 {
                     indexInModel++;
-                    Vector3 v = new Vector3(i * stepX, j * stepY, 0);
+                    Vector3 v = new Vector3((float)(i * stepX), (float)(j * stepY), 0);
                     pointsList.Add(v);
 
                 }

@@ -14,9 +14,9 @@ using Solver;
 
 namespace Palagy
 {
-	
 
-	
+
+
 
 	class Program
 	{
@@ -39,12 +39,12 @@ namespace Palagy
 		static void Main(string[] args)
 		{
 
-			int[,,] map =new int[,,] 
-            {
+			int[,,] map = new int[,,]
+			{
 				{{ 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0 } },
 				{{ 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 }, { 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 },{ 0, 0, 0, 0, 0 } },
 				{{ 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 }, { 0, 0, 1, 0, 0 }, { 0, 1, 1, 1, 0 },{ 0, 0, 0, 0, 0 } },
-                {{ 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 }, { 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 },{ 0, 0, 0, 0, 0 } },
+				{{ 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 }, { 0, 0, 0, 0, 0 }, { 0, 1, 1, 1, 0 },{ 0, 0, 0, 0, 0 } },
 				{{ 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0 } }
 			};
 
@@ -76,7 +76,7 @@ namespace Palagy
 				}
 			}
 
-			CubeAtPos(ref map3, new Vector3D(4, 3, 25),3);
+			CubeAtPos(ref map3, new Vector3D(4, 3, 25), 3);
 			CubeAtPos(ref map3, new Vector3D(4, 9, 25), 3);
 			CubeAtPos(ref map3, new Vector3D(7, 3, 25), 3);
 			CubeAtPos(ref map3, new Vector3D(7, 9, 25), 3);
@@ -92,7 +92,7 @@ namespace Palagy
 			// Get the elapsed time as a TimeSpan value.
 			//var thin = PalagySolver.PalagyThinning(map3, new Vector3D[] { new Vector3D(7, 7, 21), new Vector3D(5, 5, 44) });
 
-			var thin = PalagySolver.PalagyThinning(map2,new Vector3D[] { new Vector3D(50,50,201), new Vector3D(50,50,449) });
+			var thin = PalagySolver.PalagyThinning(map2, new Vector3D[] { new Vector3D(50, 50, 201), new Vector3D(50, 50, 449) });
 			TimeSpan ts = stopWatch.Elapsed;
 			stopWatch.Stop();
 			string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -111,7 +111,7 @@ namespace Palagy
 			ImageBox2 im2 = new ImageBox2(null, gridmapTest, 15, 50);
 			Application.Run(im2);
 
-			ImageBox2 im = new ImageBox2(null, thin,100,500);
+			ImageBox2 im = new ImageBox2(null, thin, 100, 500);
 			Application.Run(im);
 			im.Dispose();
 			var centerline = DjikstraSolver.SolveGridWeightedDistance(thin, new Vector3D(50, 50, 201), new Vector3D(50, 50, 449));
@@ -140,5 +140,5 @@ namespace Palagy
 			return res;
 		}
 	}
-	
+
 }

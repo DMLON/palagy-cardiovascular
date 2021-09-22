@@ -110,7 +110,7 @@ namespace OpenTKLib
                         AlignCameraToObject = false;
                         //System.Diagnostics.Debug.WriteLine("----Align camera to object - on first draw");
                         //o.PointCloudGL.ResetCentroid(true);
-                        Camera.ZNear = Convert.ToSingle(o.PointCloud.BoundingBoxMaxFloat);
+                        //Camera.ZNear = Convert.ToSingle(o.PointCloud.BoundingBoxMaxFloat);
                         //Convert.ToSingle(o.PointCloud.BoundingBoxMinFloat );
                         Camera.PerspectiveUpdate();
 

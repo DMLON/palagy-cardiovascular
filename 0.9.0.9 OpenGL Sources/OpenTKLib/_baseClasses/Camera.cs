@@ -133,9 +133,13 @@ namespace OpenTKLib
         {
             if (height != 0)
             {
-                perspectiveAspectRatio = width / height;
+                perspectiveAspectRatio = width / (float)height;
                 if (ZNear == 0)
                     ZNear = 1;
+                if(ZNear > ZFar)
+                {
+                    ZNear = ZFar - ZFar / 10;
+                }
                 this.p = Matrix4.CreatePerspectiveFieldOfView(FieldOfView, perspectiveAspectRatio, ZNear, ZFar);
             }
              

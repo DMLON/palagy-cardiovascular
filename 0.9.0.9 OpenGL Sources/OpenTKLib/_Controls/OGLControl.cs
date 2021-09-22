@@ -450,7 +450,7 @@ namespace OpenTKLib
         }
         public void MouseWheelActions(MouseEventArgs e)
         {
-            float v = Convert.ToSingle(e.Delta * scrollSpeed * this.GLrender.Camera.ZNear);
+            float v = Convert.ToSingle(e.Delta * scrollSpeed * this.GLrender.Camera.ZNear)*20;
 
             if (this.ModelViewMode == ModelViewMode.ModelMove)
             {

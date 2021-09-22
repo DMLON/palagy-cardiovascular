@@ -14,6 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -68,7 +69,10 @@
     <Reference Include="OpenCvSharp.UserInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenCvSharp3-AnyCPU.4.0.0.20181129\lib\net461\OpenCvSharp.UserInterface.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4" />
+    <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\0.9.0.9 OpenGL Sources\binExtern\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -121,8 +125,8 @@
       <Project>{546a9835-c8bc-4c43-a01c-c6603af6674e}</Project>
       <Name>OpenTKTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Palagy\Palagy.csproj">
-      <Project>{0f076da6-ba9b-4057-892b-dd0f095eef83}</Project>
+    <ProjectReference Include="..\PalagyV2\Palagy.csproj">
+      <Project>{ad2508e5-71d7-4f07-af75-7449a4f68189}</Project>
       <Name>Palagy</Name>
     </ProjectReference>
     <ProjectReference Include="..\Proyecto Final\Proyecto Final\SplineOpenTK.csproj">

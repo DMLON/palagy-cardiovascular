@@ -357,8 +357,8 @@ namespace OpenTKLib
         {
             if (Axis.LengthSquared == 0.0f)
                 return Identity;
-
-            Vector4 v = new Vector4(Axis.Normalize() * (float)Math.Sin(Angle * 0.5f), (float)Math.Cos(Angle * 0.5f));
+            Axis.Normalize();
+            Vector4 v = new Vector4(Axis * (float)Math.Sin(Angle * 0.5f), (float)Math.Cos(Angle * 0.5f));
             return new QuaternionNew(v);
         }
 
@@ -409,9 +409,9 @@ namespace OpenTKLib
         public static QuaternionNew FromAxis(Vector3d xvec, Vector3d yvec, Vector3d zvec)
         {
             Matrix4 Rotation = new Matrix4(
-                new Vector4(xvec.X, yvec.X, zvec.X, 0),
-                new Vector4(xvec.Y, yvec.Y, zvec.Y, 0),
-                new Vector4(xvec.Z, yvec.Z, zvec.Z, 0),
+                new Vector4((float)xvec.X, (float)yvec.X, (float)zvec.X, 0),
+                new Vector4((float)xvec.Y, (float)yvec.Y, (float)zvec.Y, 0),
+                new Vector4((float)xvec.Z, (float)yvec.Z, (float)zvec.Z, 0),
                 Vector4.Zero);
             return FromRotationMatrix(Rotation);
         }

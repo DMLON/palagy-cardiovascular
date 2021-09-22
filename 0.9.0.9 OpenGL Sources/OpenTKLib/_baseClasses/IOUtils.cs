@@ -224,7 +224,7 @@ namespace OpenTKLib
                 double.TryParse(strArrayRead[4], NumberStyles.Float | NumberStyles.AllowThousands, GlobalVariables.CurrentCulture, out r);
                 double.TryParse(strArrayRead[5], NumberStyles.Float | NumberStyles.AllowThousands, GlobalVariables.CurrentCulture, out g);
                 double.TryParse(strArrayRead[6], NumberStyles.Float | NumberStyles.AllowThousands, GlobalVariables.CurrentCulture, out b);
-                color = new Vector3(r, g, b);
+                color = new Vector3((float)r, (float)g, (float)b);
                 
             }
 
